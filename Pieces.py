@@ -17,7 +17,7 @@ class Piece: #a class is like a recipe for making an object.
 class King(Piece):  # King inherits from Piece
         def __init__(self, color):
             super().__init__(color)  # Call parent (Piece) constructor - Inheritance => make new classes based on others
-            self.symbol = "K" if color == "white" else "k"
+            self.symbol = "♚" if color == "white" else "♔"
 
         def is_valid_move(self, start, end, board): #king valid moves: one up, down left, right, diagonal
             dx = abs(end[0] - start[0])
@@ -28,7 +28,7 @@ class King(Piece):  # King inherits from Piece
 class Queen(Piece):
     def __init__(self, color):
         super().__init__(color)
-        self.symbol = "Q" if color == "white" else "q"
+        self.symbol = "♛" if color == "white" else "♕"
         def is_valid_move(self, start, end, board): #Queen (most powerful) : diagonally, verically and horizontally with any number of squares
             dx = abs(end[0] - start[0])
             dy = abs(end[1] - start[1])
@@ -38,7 +38,7 @@ class Queen(Piece):
 class Bishop(Piece):
     def __init__(self, color):
         super().__init__(color)
-        self.symbol = "B" if color == "white" else "b"
+        self.symbol = "♝" if color == "white" else "♗"
 
     def is_valid_move(self, start, end, board):
         dx = abs(end[0] - start[0])
@@ -49,7 +49,7 @@ class Bishop(Piece):
 class Knight(Piece):
     def __init__(self, color):
         super().__init__(color)
-        self.symbol = "N" if color == "white" else "n"
+        self.symbol = "♞" if color == "white" else "♘"
 
     def is_valid_move(self, start, end, board):
         dx = abs(end[0] - start[0])
@@ -60,7 +60,7 @@ class Knight(Piece):
 class Rook(Piece):
     def __init__(self, color):
         super().__init__(color)
-        self.symbol = "R" if color == "white" else "r"
+        self.symbol = "♜" if color == "white" else "♖"
 
     def is_valid_move(self, start, end, board):
         return start[0] == end[0] or start[1] == end[1]  # same row or column
@@ -69,7 +69,7 @@ class Rook(Piece):
 class Pawn(Piece):
     def __init__(self, color):
         super().__init__(color)
-        self.symbol = "P" if color == "white" else "p"
+        self.symbol = "♟" if color == "white" else "♙"
     def is_valid_move(self, start, end, board):
         # White pawns move UP the board so their row numbers go DOWN and use -1
         # Black pawns move DOWN the board so their row numbers go UP and use +1
