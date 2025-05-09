@@ -1,8 +1,9 @@
 from Pieces import King, Queen, Rook, Bishop, Pawn, Knight
-
+import random
 class Board:
     def __init__(self):
         self.board = self.create_board()
+        self.turn = "w"
 #--------------------CREATES BOARD---------------
     def create_board(self):
         board = []
@@ -47,10 +48,25 @@ class Board:
 #---------MOVE PIECE------------
     def move_piece(self, start, end):
         piece = self.get_piece(start)
+
+        # Check 1: Is there a piece at the start square?
+        if piece is None:
+            print("No piece at the selected position.")
+            return False
+
+        # Check 2: Is the piece the correct color for this turn?
+        if piece.color != ("white" if self.turn == "w" else "black"):
+            print("You must move your own piece.")
+            return False
+        # Check 3: Is it a valid move for that piece?
         if piece and piece.is_valid_move(start, end, self):
             self.board[start[0]][start[1]] = None
             self.board[end[0]][end[1]] = piece
+
+            self.turn = "b" if self.turn == "w" else "w"
             return True
+
+        print("That move is not valid.")
         return False
 
 
@@ -103,3 +119,24 @@ class Board:
             print(row_str)
         print("  ------------------------")
         print("   a  b  c  d  e  f  g  h\n")
+
+
+    def get_all_valid_moves(self, color):
+        valid_moves = []
+        for row in range(8):
+            for col in range(8):
+                piece = self.board[row][col]
+                if piece and piece.color == color:
+                    for r in range(8):
+                        for c in range(8):
+                            start = (row, col)
+                            end = (r, c)
+                            try:
+                                if piece.is_valid_move(start, end, self):
+                                    if isinstance(piece, (Rook, Bishop, Queen)) and not self.is_path_clear(start, end):
+                                        continue
+                                    valid_moves.append((start, end))
+                            except NotImplementedError:
+                                print(f"Piece at {start} is missing is_valid_move: {piece.__class__.__name__}")
+        return valid_moves
+
