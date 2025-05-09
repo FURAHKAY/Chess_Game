@@ -44,10 +44,12 @@ def main():
 
             moved = board.move_piece(start, end)
             if moved:
+                if board.is_in_check("black"):
+                    print("Check!")  # White put Black in check
                 turn = "black"
-                    # if turn == "white" else "white"
-            # else:
-            #     print("Invalid move.")
+
+            if board.is_in_check("white"):
+                print("You're in check!")  # Computer put White in check
         else:
             print("Computer’s turn (Black)...")
             import time

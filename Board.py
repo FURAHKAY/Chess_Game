@@ -58,11 +58,21 @@ class Board:
         if piece.color != ("white" if self.turn == "w" else "black"):
             print("You must move your own piece.")
             return False
+
+        destination_piece = self.get_piece(end)
+        if destination_piece and destination_piece.color == piece.color:
+            print("You can't capture your own piece.")
+            return False
+
         # Check 3: Is it a valid move for that piece?
         if piece and piece.is_valid_move(start, end, self):
+            # If it's a sliding piece, check path
+            if isinstance(piece, (Rook, Bishop, Queen)) and not self.is_path_clear(start, end):
+                print("Path is blocked.")
+                return False
+
             self.board[start[0]][start[1]] = None
             self.board[end[0]][end[1]] = piece
-
             self.turn = "b" if self.turn == "w" else "w"
             return True
 
@@ -139,4 +149,35 @@ class Board:
                             except NotImplementedError:
                                 print(f"Piece at {start} is missing is_valid_move: {piece.__class__.__name__}")
         return valid_moves
+
+    # Find the position of the King for the given color
+    def find_king(self, color):
+        for row in range(8):
+            for col in range(8):
+                piece = self.board[row][col]
+                if piece and isinstance(piece, King) and piece.color == color:
+                    return (row, col)  # Return king's position
+        return None  # If king is not found
+
+
+    # Check if the King of the given color is under attack
+    def is_in_check(self, color):
+        king_pos = self.find_king(color)  # Get king's position
+        if not king_pos:
+            return False  # Safety: return False if no king found
+
+        for row in range(8):
+            for col in range(8):
+                piece = self.board[row][col]
+
+                # Look at enemy pieces only
+                if piece and piece.color != color:
+                    start = (row, col)
+                    # Can this piece legally move to the king?
+                    if piece.is_valid_move(start, king_pos, self):
+                        # If it's a sliding piece, check if path is clear
+                        if isinstance(piece, (Rook, Bishop, Queen)) and not self.is_path_clear(start, king_pos):
+                            continue  # Blocked by another piece
+                        return True  # King is in check
+        return False  # No threats found
 

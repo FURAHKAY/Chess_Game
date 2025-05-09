@@ -61,3 +61,15 @@
 #     ELSE MOVE piece to new position on board
 #        CLEAR old position
 #        SWITCH current_turn to the other player
+
+#
+#
+#
+# TO ADD:
+# Check detection	Warn if king is in check after a move
+# Checkmate detection	End game when no legal moves can escape check
+# Pawn promotion	When pawn reaches the end, promote to Queen/Rook/Bishop/Knight
+# Castling	Special king-rook move if both haven’t moved
+# Capture tracking	Show captured pieces to each player
+# Undo last move	Let player undo if they misclick
+# GUI (optional)	Replace terminal with a visual board (Tkinter or Pygame)

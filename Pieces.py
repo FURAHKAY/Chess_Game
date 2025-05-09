@@ -29,7 +29,7 @@ class Queen(Piece):
     def __init__(self, color):
         super().__init__(color)
         self.symbol = "♛" if color == "white" else "♕"
-        def is_valid_move(self, start, end, board): #Queen (most powerful) : diagonally, verically and horizontally with any number of squares
+    def is_valid_move(self, start, end, board): #Queen (most powerful) : diagonally, verically and horizontally with any number of squares
             dx = abs(end[0] - start[0])
             dy = abs(end[1] - start[1])
             return dx == dy or  dx == 0 and dy == 0 #diagonal or straight
